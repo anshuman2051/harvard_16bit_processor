@@ -5,14 +5,14 @@ module register_file(
     input rst,
 
     input reg_write_en,
-    input [2:0] reg_write_dest,
+    input [5:0] reg_write_dest,
     input [15:0] reg_write_data,
 
-    input [2:0] reg_read_addr_1,
+    input [5:0] reg_read_addr_1,
     output [15:0] reg_read_data_1,
 
-    input [2:0] reg_read_addr_2,
-    output [15:0] reg_read_data_2,
+    input [5:0] reg_read_addr_2,
+    output [15:0] reg_read_data_2
 );
 
     //defining register memory
