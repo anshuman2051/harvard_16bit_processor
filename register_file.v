@@ -7,14 +7,15 @@ module register_file(
     input rst,
 
     input reg_write_en,
+    input reg_read_en,
     input [4:0] reg_write_dest,
     input [15:0] reg_write_data,
 
     input [4:0] reg_read_addr_1,
-    output [15:0] reg_read_data_1,
+    output reg [15:0] reg_read_data_1,
 
     input [4:0] reg_read_addr_2,
-    output [15:0] reg_read_data_2
+    output reg [15:0] reg_read_data_2
 );
 
     //defining register memory
@@ -23,6 +24,9 @@ module register_file(
 
     always @ ( posedge clk or posedge rst)
     begin
+        reg_array[0] <= 16'd5;
+        reg_array[1] <= 16'd4;
+
         if(rst)     //clear registers
         begin
             for( i = 0 ; i < 31; i++)       //replace loop later on
@@ -30,14 +34,16 @@ module register_file(
         end
         else
         begin
-            reg_array[0] <= 16'd5;
-            reg_array[1] <= 16'd4;
             if( reg_write_en)
                 reg_array[reg_write_dest] <= reg_write_data;
+            else if(reg_read_en )
+            begin
+                reg_read_data_1 <= ( reg_read_addr_1 > 16'd31) ? 16'b0 : reg_array[reg_read_addr_1];
+                reg_read_data_2 <= ( reg_read_addr_2 > 16'd31) ? 16'b0 : reg_array[reg_read_addr_2];
+            end
         end
+        //$display("in reg. read enable = %b, file write_en = %b, write_data= %b, reg_array[3] = %b",reg_read_en,reg_write_en,reg_write_data,reg_array[3]);
     end
 
-    //assigning read data
-    assign reg_read_data_1 = ( reg_read_addr_1 > 16'd31) ? 16'b0 : reg_array[reg_read_addr_1];
-    assign reg_read_data_2 = ( reg_read_addr_2 > 16'd31) ? 16'b0 : reg_array[reg_read_addr_2];
+
 endmodule
