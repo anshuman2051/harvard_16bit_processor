@@ -14,18 +14,21 @@ cpu cpu_inst(
     .reset(reset)
 );
 
-initial
-    $monitor($time, " output = %b, pc_out = %b",out, pc_out);
 
 initial 
 begin
     $display("started program");
-    pc = 1'b0;
+    pc = 5'b0;
     clk = 1'b0;
     reset = 1'b0;
     #50
+    //pc = 5'b00010;
+    #500
     $finish;
 end
+
+initial
+    $monitor($time, " output = %b, pc_out = %b",out, pc_out);
 
 always
     #10 clk = ~clk;

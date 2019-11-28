@@ -38,6 +38,8 @@ register_file r(
                 end
             endcase
         end
-        $display("in decode, alu_op = %b, a = %b , b = %b",alu_op,a,b);
     end
+
+    always @(*)
+        $display("in decode, alu_op = %b, a = %b , b = %b",alu_op,a,b);
 endmodule

@@ -22,12 +22,17 @@ decode d( .instr(instr),
           .reset(reset),
           .clk(clk),
           .alu_op(alu_op),
-          .reg_write(reg_write)
+          .reg_write(reg_write),
+          .a(a),
+          .b(b)
 );
 
 alu al( .a(a), .b(b), .alu_control(alu_op), .result(alu_out), .zero(zero));
 
 write_back write( .write_data(alu_out), .reg_write(reg_write));
+
+always @(*)
+    $display("\tin cpu.v : a = %b , b = %b, alu_op = %b",a,b,alu_op);
 
 
 assign out = alu_out;
